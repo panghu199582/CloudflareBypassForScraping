@@ -70,6 +70,7 @@ class CloudflareBypasser:
     def is_bypassed(self):
         try:
             title = self.driver.title.lower()
+            self.driver.cookies()
             return "just a moment" not in title
         except Exception as e:
             self.log_message(f"Error checking page title: {e}")
@@ -94,3 +95,5 @@ class CloudflareBypasser:
             self.log_message("Bypass successful.")
         else:
             self.log_message("Bypass failed.")
+        
+        time.sleep(5)
