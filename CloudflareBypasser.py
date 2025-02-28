@@ -69,9 +69,17 @@ class CloudflareBypasser:
 
     def is_bypassed(self):
         try:
-            title = self.driver.title.lower()
-            self.driver.cookies()
-            return "just a moment" not in title
+            cookies = self.driver.cookies()
+            self.log_message(f"Current cookies: {cookies}")
+            
+            # 检查 cf_clearance cookie 是否存在
+            for cookie in cookies:
+                if cookie.get('name') == 'cf_clearance':
+                    self.log_message(f"Found cf_clearance cookie {cookie}")
+                    return True
+            
+            self.log_message("cf_clearance cookie not found")
+            return False
         except Exception as e:
             self.log_message(f"Error checking page title: {e}")
             return False
@@ -96,4 +104,5 @@ class CloudflareBypasser:
         else:
             self.log_message("Bypass failed.")
         
-        time.sleep(5)
+        
+        # time.sleep(5)

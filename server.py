@@ -100,7 +100,7 @@ async def get_cookies(url: str, retries: int = 5, proxy: str = None):
         return CookieResponse(cookies=cookies, user_agent=user_agent)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
+        
 
 # Endpoint to get HTML content and cookies
 @app.get("/html")
@@ -120,24 +120,25 @@ async def get_html(url: str, retries: int = 5, proxy: str = None):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+
 # Main entry point
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Cloudflare bypass api")
 
     parser.add_argument("--nolog", action="store_true", help="Disable logging")
-    parser.add_argument("--headless", action="store_true", help="Run in headless mode")
+    parser.add_argument("--headless false", action="store_true", help="Run in headless mode")
 
     args = parser.parse_args()
     display = None
     
-    if args.headless or DOCKER_MODE:
-        display = Display(visible=0, size=(1920, 1080))
-        display.start()
+    # if args.headless or DOCKER_MODE:
+    #     display = Display(visible=0, size=(1920, 1080))
+    #     display.start()
         
-        def cleanup_display():
-            if display:
-                display.stop()
-        atexit.register(cleanup_display)
+    #     def cleanup_display():
+    #         if display:
+    #             display.stop()
+    #     atexit.register(cleanup_display)
     
     if args.nolog:
         log = False

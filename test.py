@@ -66,7 +66,7 @@ def main():
     driver = ChromiumPage(addr_or_opts=options)
     try:
         logging.info('Navigating to the demo page.')
-        driver.get('https://nopecha.com/demo/cloudflare')
+        driver.get('https://www.ncb-bank.vn/nganhangso.khcn/dang-nhap')
 
         # Where the bypass starts
         logging.info('Starting Cloudflare bypass.')
@@ -81,7 +81,7 @@ def main():
         logging.info("Title of the page: %s", driver.title)
 
         # Sleep for a while to let the user see the result if needed
-        time.sleep(5)
+        
     except Exception as e:
         logging.error("An error occurred: %s", str(e))
     finally:
