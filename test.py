@@ -61,7 +61,7 @@ def main():
     ]
 
     options = get_chromium_options(browser_path, arguments)
-
+    logging.info(options)
     # Initialize the browser
     driver = ChromiumPage(addr_or_opts=options)
     try:
@@ -86,7 +86,7 @@ def main():
         logging.error("An error occurred: %s", str(e))
     finally:
         logging.info('Closing the browser.')
-        driver.quit()
+        # driver.quit()
         if isHeadless:
             display.stop()
 
