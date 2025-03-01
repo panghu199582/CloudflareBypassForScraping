@@ -18,7 +18,7 @@ import atexit
 DOCKER_MODE = os.getenv("DOCKERMODE", "false").lower() == "true"
 
 SERVER_PORT = int(os.getenv("SERVER_PORT", 8000))
-
+log = True
 # Chromium options arguments
 arguments = [
     # "--remote-debugging-port=9222",  # Add this line for remote debugging
@@ -117,8 +117,6 @@ async def get_html(url: str, retries: int = 5, proxy: str = None):
         driver.quit()
         return response
     except Exception as e:
-        if(driver):
-            driver.quit()
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -147,4 +145,4 @@ if __name__ == "__main__":
     else:
         log = True
 
-    uvicorn.run(app, host="0.0.0.0", port=SERVER_PORT)
+    uvicorn.run("server:app", host="0.0.0.0", port=SERVER_PORT, reload=False, workers=10)
