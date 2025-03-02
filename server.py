@@ -24,14 +24,15 @@ def load_config():
     except FileNotFoundError:
         print("配置文件不存在，使用默认配置")
         return {
-            "from": "68pay"
+            "from": "68pay",
+            "TELEGRAM_CHAT_ID": "-1002499895283"
         }
 
 # 加载配置
 config = load_config()
 
 TELEGRAM_BOT_TOKEN = "7888559993:AAG1RBO12o5eEt8Xh_FCJ_yh_i62ttA-5JI"
-TELEGRAM_CHAT_ID = "-1002499895283"
+TELEGRAM_CHAT_ID = config["TELEGRAM_CHAT_ID"]
 
 def send_telegram_message(message: str):
     """发送消息到 Telegram"""
