@@ -13,7 +13,41 @@ import argparse
 from pyvirtualdisplay import Display
 import uvicorn
 import atexit
+import requests
 
+def load_config():
+    """加载配置文件"""
+    config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("配置文件不存在，使用默认配置")
+        return {
+            "from": "68pay"
+        }
+
+# 加载配置
+config = load_config()
+
+TELEGRAM_BOT_TOKEN = "7888559993:AAG1RBO12o5eEt8Xh_FCJ_yh_i62ttA-5JI"
+TELEGRAM_CHAT_ID = "-1002499895283"
+
+def send_telegram_message(message: str):
+    """发送消息到 Telegram"""
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return
+    
+    try:
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        data = {
+            "chat_id": TELEGRAM_CHAT_ID,
+            "text": message,
+            "parse_mode": "HTML"
+        }
+        requests.post(url, json=data)
+    except Exception as e:
+        print(f"发送 Telegram 消息失败: {str(e)}")
 # Check if running in Docker mode
 DOCKER_MODE = os.getenv("DOCKERMODE", "false").lower() == "true"
 
@@ -97,8 +131,10 @@ async def get_cookies(url: str, retries: int = 5, proxy: str = None):
         cookies = {cookie.get("name", ""): cookie.get("value", " ") for cookie in driver.cookies()}
         user_agent = driver.user_agent
         driver.quit()
+        # send_telegram_message(f"{config['from']}破盾成功")
         return CookieResponse(cookies=cookies, user_agent=user_agent)
     except Exception as e:
+        send_telegram_message(f"{config['from']}破盾失败，请重启破盾程序")
         raise HTTPException(status_code=500, detail=str(e))
         
 
