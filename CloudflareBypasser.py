@@ -24,6 +24,9 @@ class CloudflareBypasser:
                 return ele.shadow_root.ele("tag:input")
         else:
             for child in ele.children():
+                print("IFRAME当前网址" + self.driver.url)
+                if self.driver.url == "https://www.ncb-bank.vn/nganhangso.khcn/dang-nhap":
+                    return None
                 result = self.search_recursively_shadow_root_with_cf_input(child)
                 if result:
                     return result
@@ -68,6 +71,7 @@ class CloudflareBypasser:
             self.log_message(f"Error clicking verification button: {e}")
 
     def is_bypassed(self):
+        print("当前网址" + self.driver.url)
         try:
             cookies = self.driver.cookies()
             self.log_message(f"Current cookies: {cookies}")
@@ -106,3 +110,6 @@ class CloudflareBypasser:
         
         
         # time.sleep(5)
+
+    def get_current_url(self):
+        return self.driver.url

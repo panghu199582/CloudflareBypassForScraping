@@ -182,4 +182,4 @@ if __name__ == "__main__":
     else:
         log = True
 
-    uvicorn.run("server:app", host="0.0.0.0", port=SERVER_PORT, reload=False, workers=10)
+    uvicorn.run("server:app", host="0.0.0.0", port=SERVER_PORT, reload=False, workers=20)
